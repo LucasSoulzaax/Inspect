@@ -74,7 +74,12 @@ app.delete('/produtos/:id', async (req, res) => {
 
 app.get('/inspetor', async (req, res) => {
   try {
-    const { rows } = await pool.query('SELECT * FROM inspetor');
+    const consulta = `
+      SELECT i.id, i.produto_id, p.nome, i.justificativa
+      FROM inspetor i
+      JOIN produtos p ON i.produto_id = p.id
+    `;
+    const { rows } = await pool.query(consulta);
     res.json(rows);
   } catch (error) {
     res.status(500).json({ message: 'Falha ao buscar justificativas', error: error.message });
