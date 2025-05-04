@@ -42,7 +42,7 @@ app.put('/produtos/:id', async (req, res) => {
 
   try {
     const consulta =
-      'UPDATE usuarios SET status = $1 WHERE id = $2'
+      'UPDATE produtos SET status = $1 WHERE id = $2'
 
     await pool.query(consulta, [status, id])
     res.status(200).json({ message: 'produto atualizado com sucesso' })
