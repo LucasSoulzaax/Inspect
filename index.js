@@ -40,9 +40,13 @@ app.put('/produtos/:id', async (req, res) => {
   const { id } = req.params;
   const { status, validade } = req.body;
   try {
+    if (!status || !validade) {
+      return res.status(400).json({ message: 'Status e validade são obrigatórios' });
+    }
+
     const consulta =
       'UPDATE produtos SET status = $1, validade = $2 WHERE id = $3';
-    
+
     await pool.query(consulta, [status, validade, id]);
 
     res.status(200).json({ message: 'Produto atualizado com sucesso' });
