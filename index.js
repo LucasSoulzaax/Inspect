@@ -37,21 +37,20 @@ app.post('/produtos', async (req, res) => {
 })
 
 app.put('/produtos/:id', async (req, res) => {
-  const { id } = req.params
-  const {status } = req.body
-
+  const { id } = req.params;
+  const { status, validade } = req.body;
   try {
     const consulta =
-      'UPDATE produtos SET status = $1 WHERE id = $2'
+      'UPDATE produtos SET status = $1, validade = $2 WHERE id = $3';
+    
+    await pool.query(consulta, [status, validade, id]);
 
-    await pool.query(consulta, [status, id])
-    res.status(200).json({ message: 'produto atualizado com sucesso' })
+    res.status(200).json({ message: 'Produto atualizado com sucesso' });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: 'Falha ao atualizar produto', error: error.message })
+    res.status(500).json({ message: 'Falha ao atualizar produto', error: error.message });
   }
-})
+});
+
 
 app.delete('/produtos/:id', async (req, res) => {
   const { id } = req.params
