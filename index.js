@@ -68,6 +68,16 @@ app.delete('/produtos/:id', async (req, res) => {
 })
 
 
+app.get('/inspetor', async (req, res) => {
+  try {
+    const { rows } = await pool.query('SELECT * FROM inspetor');
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ message: 'Falha ao buscar justificativas', error: error.message });
+  }
+});
+
+
 app.post('/inspetor', async (req, res) => {
   const { produto_id, justificativa } = req.body
 
